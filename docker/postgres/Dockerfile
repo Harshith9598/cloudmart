@@ -1,0 +1,5 @@
+FROM postgres:16-alpine
+ENV POSTGRES_DB=cloudmart
+ENV POSTGRES_USER=cloudmart
+ENV POSTGRES_PASSWORD=cloudmart
+EXPOSE 5432

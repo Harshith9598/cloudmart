@@ -1,0 +1,5 @@
+-- V2__seed_roles.sql — Insert base roles
+
+INSERT INTO roles (name) VALUES ('CUSTOMER') ON CONFLICT DO NOTHING;
+INSERT INTO roles (name) VALUES ('SELLER') ON CONFLICT DO NOTHING;
+INSERT INTO roles (name) VALUES ('ADMIN') ON CONFLICT DO NOTHING;
