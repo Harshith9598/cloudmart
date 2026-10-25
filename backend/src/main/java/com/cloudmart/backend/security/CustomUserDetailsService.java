@@ -1,6 +1,6 @@
 package com.cloudmart.backend.security;
 
-import com.cloudmart.backend.model.User;
+import com.cloudmart.backend.entity.User;
 import com.cloudmart.backend.repository.UserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
