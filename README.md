@@ -1,130 +1,89 @@
-# CloudMart — Cloud-Native Marketplace
+# CloudMart – Cloud-Native Marketplace
 
-A production-oriented marketplace application with a React/TypeScript frontend and a Spring Boot backend.
+CloudMart is a full-stack marketplace application where customers can browse products, add items to their cart, and place orders. Sellers can manage their products, and admins can manage the platform.
 
-## Architecture
+## Tech Stack
 
-```
-React / TypeScript / Vite / Tailwind CSS
-        ↓ REST API
-Spring Boot / Spring Security / Spring Data JPA
-        ↓
-PostgreSQL (database) + Redis (caching)
-```
+- **Frontend:** React, TypeScript, Vite, Tailwind CSS
+- **Backend:** Java 21, Spring Boot
+- **Database:** PostgreSQL
+- **Caching:** Redis
+- **Authentication:** JWT, Spring Security
+- **Tools:** Docker, GitHub Actions
+- **Cloud:** AWS (deployment-ready setup)
 
-```
-GitHub → GitHub Actions → Docker → AWS (ECS / RDS / ElastiCache / S3)
-```
+## Features
 
-## Repository structure
+- User registration and login
+- Role-based access for customers, sellers, and admins
+- Browse and search products
+- Shopping cart and order management
+- Seller product management
+- Product reviews
+- Redis caching for products and categories
+- REST APIs with Swagger documentation
 
-```
-├── src/                          # React frontend (TypeScript, Vite, Tailwind)
-├── backend/                      # Spring Boot backend (Java 21, Maven)
-│   ├── src/main/java/.../        # Application source code
-│   ├── src/main/resources/       # application.yml, Flyway migrations
-│   ├── src/test/                 # Unit and integration tests
-│   ├── pom.xml
-│   └── Dockerfile
-├── docker/                       # PostgreSQL and Redis Dockerfiles
-├── .github/workflows/            # CI/CD pipelines
-├── docs/                         # AWS deployment guide
-├── docker-compose.yml            # Full local stack
-├── Dockerfile.frontend           # Frontend container
-└── nginx.conf                    # Frontend nginx config
-```
+## Project Structure
 
-## Backend structure
+- `src/` – Frontend code
+- `backend/` – Spring Boot backend
+- `docker/` – Docker configuration
+- `.github/workflows/` – GitHub Actions workflows
+- `docs/` – AWS deployment guide
 
-```
-backend/src/main/java/com/cloudmart/backend/
-├── config/         SecurityConfig, RedisConfig, OpenApiConfig, DataInitializer
-├── controller/     REST controllers (thin, delegate to services)
-├── dto/            Request and response objects with validation
-├── entity/         JPA entities with relationships and constraints
-├── repository/     Spring Data JPA repositories
-├── service/        Business logic (transactional)
-├── security/       JWT auth, filters, SecurityUtils
-├── exception/      Global exception handling
-└── mapper/         Entity-to-DTO mappers
-```
+## Run Locally
 
-## Running locally with Docker
+Make sure Docker and Docker Compose are installed.
 
 ```bash
-docker compose up
+docker compose up --build
 ```
 
-This starts:
-- PostgreSQL on port 5432
-- Redis on port 6379
-- Backend on port 8080
-- Frontend on port 3000
+This starts the frontend, backend, PostgreSQL, and Redis services configured in Docker Compose.
 
-## Running the frontend only
-
-The frontend is deployed on Bolt Cloud and also runs locally:
+To run the frontend separately:
 
 ```bash
 npm install
 npm run dev
 ```
 
-Set `VITE_API_BASE_URL` to point the frontend at any backend.
-
-## Running the backend
+To run the backend separately:
 
 ```bash
 cd backend
 mvn spring-boot:run
 ```
 
-Requires PostgreSQL and Redis running (use `docker compose up postgres redis`).
+The backend requires PostgreSQL and Redis to be running.
 
-## API documentation
+## API Documentation
 
-When the backend is running, Swagger UI is available at:
+Once the backend is running, open:
+
 `http://localhost:8080/swagger-ui.html`
-
-## Authentication
-
-JWT-based authentication with three roles:
-- **CUSTOMER** — browse, cart, orders, reviews
-- **SELLER** — manage own products, reply to reviews
-- **ADMIN** — manage categories, view audit logs, platform stats
 
 ## Database
 
-PostgreSQL with Flyway migrations in `backend/src/main/resources/db/migration/`.
+CloudMart uses PostgreSQL to store users, products, categories, carts, orders, payments, reviews, and other application data. Flyway is used to manage database migrations.
 
-Entities: User, Role, SellerProfile, Product, Category, ProductImage, Cart, CartItem, Order, OrderItem, Payment, Review, AuditLog.
+## Caching
 
-## Redis
-
-Cache-aside pattern for products and categories with TTL-based expiration.
-Cache invalidation on writes via `@CacheEvict`.
+Redis is used to cache products and categories to reduce repeated database queries. The cache is updated when relevant data changes.
 
 ## CI/CD
 
-GitHub Actions workflows:
-- `backend-ci.yml` — compile, test, package
-- `frontend-ci.yml` — typecheck, lint, build
-- `docker-build.yml` — build and push Docker images
-- `deploy.yml` — deployment-ready (AWS steps commented out)
+GitHub Actions workflows are configured for frontend checks, backend tests, and Docker image builds. AWS deployment steps are prepared but may require additional configuration.
 
-See [docs/aws-deployment.md](docs/aws-deployment.md) for AWS setup instructions.
+## Future Improvements
 
-## Tech stack
+- Complete AWS deployment
+- Add payment gateway integration
+- Improve automated testing
+- Add monitoring and logging
 
-| Layer | Technology |
-|-------|-----------|
-| Frontend | React 18, TypeScript, Vite, Tailwind CSS |
-| Backend | Spring Boot 3.2, Java 21, Spring Security, Spring Data JPA |
-| Database | PostgreSQL 16 |
-| Cache | Redis 7 |
-| Auth | JWT (jjwt) |
-| API Docs | OpenAPI 3 / Swagger UI |
-| Migrations | Flyway |
-| Containerization | Docker, Docker Compose |
-| CI/CD | GitHub Actions |
-| Cloud | AWS (ECS, RDS, ElastiCache, S3, CloudFront) |
+## Author
+
+**Harshith Reddy**
+
+GitHub: [Harshith9598](https://github.com/Harshith9598)
